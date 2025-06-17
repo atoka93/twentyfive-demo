@@ -5,7 +5,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object QuotableApiClient {
     // https://github.com/lukePeavey/quotable
-    private const val BASE_URL = "https://api.quotable.io/"
+    // https://github.com/lukePeavey/quotable/issues/257
+    // private const val BASE_URL = "https://api.quotable.io/"
+    private const val BASE_URL = "https://quotable.vercel.app/"
 
     private val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)

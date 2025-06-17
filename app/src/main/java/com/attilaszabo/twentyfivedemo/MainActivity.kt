@@ -4,12 +4,18 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.attilaszabo.twentyfivedemo.quotepresentation.ui.QuotesScreen
-import com.attilaszabo.twentyfivedemo.ui.MainScreen
-import com.attilaszabo.twentyfivedemo.ui.theme.TwentyFiveDemoTheme
+import com.attilaszabo.twentyfivedemo.quotepresentation.navigateToQuote
+import com.attilaszabo.twentyfivedemo.quotepresentation.quoteScreen
+import com.attilaszabo.twentyfivedemo.quotepresentation.ui.QuoteScreen
+import com.attilaszabo.twentyfivedeom.commonpresentation.DataState
+import com.attilaszabo.twentyfivedeom.commonpresentation.theme.TwentyFiveDemoTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,17 +23,18 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             TwentyFiveDemoTheme {
-                // Set up the navigation controller
                 val navController = rememberNavController()
 
-                // Main Content with Navigation
-                NavHost(navController = navController, startDestination = "main") {
-                    composable("main") {
-                        MainScreen(navController)
-                    }
-                    composable("quotes") {
-                        QuotesScreen()
-                    }
+                NavHost(
+                    navController = navController,
+                    startDestination = MainRoute
+                ) {
+                    mainScreen(
+                        onQuotesClick = navController::navigateToQuote,
+                    )
+                    quoteScreen(
+                        onBackClick = navController::popBackStack
+                    )
                 }
             }
         }

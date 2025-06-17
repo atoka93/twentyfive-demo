@@ -1,7 +1,6 @@
 plugins {
     id("java-library")
     alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.google.ksp)
 }
 java {
     sourceCompatibility = JavaVersion.VERSION_11
@@ -15,6 +14,10 @@ kotlin {
 dependencies {
     implementation(project(":quote-domain"))
     implementation(project(":quote-api"))
+    implementation(project(":quote-cache"))
+
     implementation(libs.coroutines.core)
-    ksp(libs.hilt.compiler)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.coroutines.test)
 }

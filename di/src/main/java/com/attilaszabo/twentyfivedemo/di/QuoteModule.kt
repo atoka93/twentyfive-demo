@@ -1,28 +1,46 @@
 package com.attilaszabo.twentyfivedemo.di
 
-import com.attilaszabo.twentyfivedemo.quoteapi.QuotableApiService
+import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.core.DataStoreFactory
 import com.attilaszabo.twentyfivedemo.quoteapi.QuoteRemoteDataSource
 import com.attilaszabo.twentyfivedemo.quoteapi.QuoteRemoteDataSourceImpl
+import com.attilaszabo.twentyfivedemo.quotecache.QuoteLocalDataSource
+import com.attilaszabo.twentyfivedemo.quotecache.QuoteLocalDataSourceImpl
+import com.attilaszabo.twentyfivedemo.quotecache.QuoteProto
+import com.attilaszabo.twentyfivedemo.quotecache.QuoteSerializer
 import com.attilaszabo.twentyfivedemo.quotedata.QuoteRepositoryImpl
 import com.attilaszabo.twentyfivedemo.quotedomain.GetRandomQuoteUseCase
 import com.attilaszabo.twentyfivedemo.quotedomain.QuoteRepository
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
+import com.attilaszabo.twentyfivedemo.quotepresentation.QuoteViewModel
+import org.koin.core.module.Module
+import org.koin.core.module.dsl.scopedOf
+import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.viewModelOf
+import org.koin.dsl.bind
+import org.koin.dsl.module
+import java.io.File
 
-@Module
-@InstallIn(ViewModelComponent::class)
-object QuoteModule {
-    @Provides
-    fun provideQuoteRemoteDataSource(api: QuotableApiService): QuoteRemoteDataSource =
-        QuoteRemoteDataSourceImpl(api)
+fun quoteModule(context: Context): Module =
+    module {
+        viewModelOf(::QuoteViewModel)
+        scope<QuoteViewModel> {
+            scopedOf(::GetRandomQuoteUseCase)
+        }
 
-    @Provides
-    fun provideQuoteRepository(remoteDataSource: QuoteRemoteDataSource): QuoteRepository =
-        QuoteRepositoryImpl(remoteDataSource)
-
-    @Provides
-    fun provideGetRandomQuoteUseCase(repository: QuoteRepository): GetRandomQuoteUseCase =
-        GetRandomQuoteUseCase(repository)
-}
+        single<QuoteRepository> {
+            QuoteRepositoryImpl(
+                remoteDataSource = get(),
+                localDataSource = get(),
+                dispatcher = get(qualifier = IO_DISPATCHER_QUALIFIER),
+            )
+        }
+        singleOf(::QuoteRemoteDataSourceImpl) bind QuoteRemoteDataSource::class
+        singleOf(::QuoteLocalDataSourceImpl) bind QuoteLocalDataSource::class
+        single<DataStore<QuoteProto>> {
+            DataStoreFactory.create(
+                serializer = QuoteSerializer,
+                produceFile = { File(context.filesDir, "quote.pb") }
+            )
+        }
+    }

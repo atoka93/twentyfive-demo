@@ -1,12 +1,12 @@
 package com.attilaszabo.twentyfivedemo.quotedomain
 
 import kotlinx.coroutines.flow.Flow
-import javax.inject.Inject
+import com.attilaszabo.twentyfivedemo.commondomain.Result
 
-class GetRandomQuoteUseCase @Inject constructor(
+class GetRandomQuoteUseCase(
     private val quoteRepository: QuoteRepository,
 ) {
-    fun execute(): Flow<QuoteResponse> {
+    fun execute(): Flow<Result<Quote>> {
         return quoteRepository.obtainRandomQuote()
     }
 }

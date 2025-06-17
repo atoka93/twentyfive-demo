@@ -1,11 +1,11 @@
 package com.attilaszabo.twentyfivedemo
 
 import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
+import com.attilaszabo.twentyfivedemo.di.AppDiModule
 
-@HiltAndroidApp
 class TwentyFiveDemoApp : Application() {
     override fun onCreate() {
         super.onCreate()
+        AppDiModule.initialize(this@TwentyFiveDemoApp)
     }
 }

@@ -1,7 +1,6 @@
 plugins {
     id("java-library")
     alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.google.ksp)
 }
 java {
     sourceCompatibility = JavaVersion.VERSION_11
@@ -13,6 +12,20 @@ kotlin {
     }
 }
 dependencies {
-    implementation(libs.coroutines.core)
-    ksp(libs.hilt.compiler)
+    api(project(":common-domain"))
+
+    testImplementation(libs.junit)
+    testImplementation(libs.coroutines.test)
+}
+
+configurations {
+    create("testResources")
+}
+tasks.register<Jar>("quoteDomainTestResourcesArchive") {
+    archiveBaseName.set("quoteDomainTestResources")
+    from(project.the<SourceSetContainer>()["main"].output)
+    from(project.the<SourceSetContainer>()["test"].output)
+}
+artifacts {
+    add("testResources", tasks["quoteDomainTestResourcesArchive"])
 }

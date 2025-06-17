@@ -1,26 +1,43 @@
 package com.attilaszabo.twentyfivedemo.quotedata
 
 import com.attilaszabo.twentyfivedemo.quoteapi.QuoteResponseDto
-import com.attilaszabo.twentyfivedemo.quotedomain.QuoteResponse
+import com.attilaszabo.twentyfivedemo.quotecache.QuoteLocalDto
+import com.attilaszabo.twentyfivedemo.quotedomain.Quote
 
-object QuoteResponseMapper {
-    fun mapToDomain(quoteResponseDto: QuoteResponseDto): QuoteResponse {
-        return QuoteResponse(
-            quoteResponseDto._id,
-            quoteResponseDto.content,
-            quoteResponseDto.author,
-            quoteResponseDto.tags,
-        )
-    }
+fun QuoteLocalDto.mapToDomain(): Quote {
+    return Quote(
+        id,
+        content,
+        author,
+        tags,
+    )
+}
 
-    fun mapToDto(quoteResponse: QuoteResponse): QuoteResponseDto {
-        return QuoteResponseDto(
-            quoteResponse.id,
-            quoteResponse.content,
-            quoteResponse.author,
-            "",
-            quoteResponse.content.length,
-            quoteResponse.tags,
-        )
-    }
+fun QuoteResponseDto.mapToLocalDto(): QuoteLocalDto {
+    return QuoteLocalDto(
+        _id,
+        content,
+        author,
+        tags,
+    )
+}
+
+fun QuoteResponseDto.mapToDomain(): Quote {
+    return Quote(
+        _id,
+        content,
+        author,
+        tags,
+    )
+}
+
+fun Quote.mapToResponseDto(): QuoteResponseDto {
+    return QuoteResponseDto(
+        id,
+        content,
+        author,
+        "",
+        content.length,
+        tags,
+    )
 }
