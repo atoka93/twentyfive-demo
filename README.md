@@ -1,2 +1,2 @@
 # TwentyFive Demo
-An Android project consisting of demos
+Android demo application showcasing a modularized clean architecture.

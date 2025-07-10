@@ -4,18 +4,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.attilaszabo.twentyfivedemo.quotepresentation.navigateToQuote
-import com.attilaszabo.twentyfivedemo.quotepresentation.quoteScreen
-import com.attilaszabo.twentyfivedemo.quotepresentation.ui.QuoteScreen
-import com.attilaszabo.twentyfivedeom.commonpresentation.DataState
-import com.attilaszabo.twentyfivedeom.commonpresentation.theme.TwentyFiveDemoTheme
+import com.attilaszabo.twentyfivedemo.common.presentation.theme.TwentyFiveDemoTheme
+import com.attilaszabo.twentyfivedemo.features.cutofftime.presentation.cutOffTimeScreen
+import com.attilaszabo.twentyfivedemo.features.cutofftime.presentation.navigateToCutOffTime
+import com.attilaszabo.twentyfivedemo.quote.presentation.navigateToQuote
+import com.attilaszabo.twentyfivedemo.quote.presentation.quoteScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,8 +26,12 @@ class MainActivity : ComponentActivity() {
                 ) {
                     mainScreen(
                         onQuotesClick = navController::navigateToQuote,
+                        onRemainingTimeClick = navController::navigateToCutOffTime,
                     )
                     quoteScreen(
+                        onBackClick = navController::popBackStack
+                    )
+                    cutOffTimeScreen(
                         onBackClick = navController::popBackStack
                     )
                 }

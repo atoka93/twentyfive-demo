@@ -16,10 +16,12 @@ fun NavController.navigateToMain(navOptions: NavOptions? = null) {
 
 fun NavGraphBuilder.mainScreen(
     onQuotesClick: () -> Unit,
+    onRemainingTimeClick: () -> Unit,
 ) {
     composable<MainRoute> {
         MainScreen(
             onQuotesClick = onQuotesClick,
+            onRemainingTimeClick = onRemainingTimeClick,
         )
     }
 }

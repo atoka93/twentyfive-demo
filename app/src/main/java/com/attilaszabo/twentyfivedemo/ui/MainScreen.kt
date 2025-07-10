@@ -32,14 +32,15 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.attilaszabo.twentyfivedeom.commonpresentation.theme.TwentyFiveDemoTheme
+import com.attilaszabo.twentyfivedemo.common.presentation.theme.TwentyFiveDemoTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.cos
 
 @Composable
 fun MainScreen(
-    onQuotesClick: () -> Unit
+    onQuotesClick: () -> Unit,
+    onRemainingTimeClick: () -> Unit
 ) {
     val rotationDegrees = 60f
     val animationDuration = 1500
@@ -127,6 +128,11 @@ fun MainScreen(
             ) {
                 Text("Show random quote")
             }
+            Button(
+                onClick = onRemainingTimeClick
+            ) {
+                Text("Show remaining time")
+            }
             Spacer(Modifier.height(16.dp))
         }
     }
@@ -137,7 +143,8 @@ fun MainScreen(
 fun MainScreenPreview() {
     TwentyFiveDemoTheme {
         MainScreen(
-            onQuotesClick = {}
+            onQuotesClick = {},
+            onRemainingTimeClick = {}
         )
     }
 }

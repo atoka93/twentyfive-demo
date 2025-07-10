@@ -35,18 +35,20 @@ android {
     buildFeatures {
         compose = true
     }
+    composeCompiler {
+        stabilityConfigurationFiles = listOf(
+            rootProject.layout.projectDirectory.file("stability-config.conf")
+        )
+    }
+
 }
 
 dependencies {
-    implementation(project(":di"))
-    implementation(project(":common-presentation"))
-    implementation(project(":quote-presentation"))
+    implementation(project(":common:di"))
+    implementation(project(":common:presentation"))
+    implementation(project(":features:quote:presentation"))
+    implementation(project(":features:cutofftime:presentation"))
 
-    testImplementation(libs.junit)
-    testImplementation(libs.coroutines.test)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    debugImplementation(libs.androidx.ui.test.manifest)
-    androidTestImplementation(libs.androidx.ui.test.junit4)
+    testImplementation(project(":common:sharedtestresources"))
+    androidTestImplementation(project(":common:sharedtestresources"))
 }

@@ -21,11 +21,20 @@ dependencyResolutionManagement {
 
 rootProject.name = "twentyfivedemo"
 include(":app")
-include(":di")
-include(":quote-presentation")
-include(":quote-domain")
-include(":quote-data")
-include(":quote-api")
-include(":quote-cache")
-include(":common-presentation")
-include(":common-domain")
+include(":sources:quote-api")
+include(":sources:quote-cache")
+include(":sources:cutofftime")
+include(":sources:country")
+
+include(":features:quote:presentation")
+include(":features:quote:domain")
+include(":features:quote:data")
+
+include(":features:cutofftime:data")
+include(":features:cutofftime:domain")
+include(":features:cutofftime:presentation")
+
+include(":common:domain")
+include(":common:presentation")
+include(":common:di")
+include(":common:sharedtestresources")
